@@ -1,18 +1,43 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <v-container>
+      <TablaDatos />
+      <v-btn @click="showAdd" depressed>
+        <span v-if="!add">Agregar Producto</span> <span v-if="add">Quitar Formulario</span>
+      </v-btn>
+      <AgregarProductos v-if="add"/>
+      <EditarProductos v-if="!edit" />
+    </v-container>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+import TablaDatos from "@/components/TablaDatos.vue";
+import AgregarProductos from "@/components/AgregarProductos.vue";
+import EditarProductos from "@/components/EditarProductos.vue";
+import { mapMutations, mapState } from "vuex";
 
 export default {
-  name: 'Home',
+  name: "Home",
   components: {
-    HelloWorld
+    TablaDatos,
+    AgregarProductos,
+    EditarProductos
+  },
+  computed: {
+    ...mapState("Datos", ["add", "edit"]),
+  },
+  methods: {
+    ...mapMutations("Datos", ["MostrarAdd"]),
+    showAdd() {
+      this.MostrarAdd();
+    }
   }
-}
+};
 </script>
+
+<style lang="scss">
+.home {
+  padding: 20px 0;
+}
+</style>
